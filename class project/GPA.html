@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title> GPA Calculate</title>
+    <link rel="stylesheet" href="gpa.css">
+    <link rel="shortcut icon" href="image/head.jpg">
+    <script src="https://apps.bdimg.com/libs/jquery/1.9.1/jquery.js"></script>
+</head>
+
+<body>
+    <header>
+        <img src="image/head.jpg" alt="header" width="150" height="100">
+        <h2>GPA Calculate</h2>
+        <h3>Students can calculate your GPA on this page!</h3>
+    </header>
+    <main>
+        
+        <div class="topnav">
+            <a href="index.html">Home</a>
+            <a href="GPA.html">GPA</a>
+            <a href="Teaching%20Assistant.html">Teaching Assistant</a>
+            <a href="Educational.html">Educational administration system</a>
+            <input type="text" placeholder="Search..">
+       </div>
+        
+    <div class="container">
+    <form id="form">
+        <h2>Calculate the GPA!</h2>
+        <br><br><br><br>
+        <h5>To calculate GPA, you needs to enter the credit hours and letter grade for at least two courses.</h5>
+        <div class="input">
+        <input  id="hours"> 
+        <p>Input format: Hour,grade;Hour,grade;</p>
+        </div>
+        
+        <div class="tools">
+            <div id="btn" class="btn">Submit</div>
+            <br><br><br><br><br><br>
+            <div class="GPA">
+                <span>Your GPA is: </span>
+                <span id="GPA"></span>
+            </div>
+        </div>
+
+
+    </form>
+</div>
+       
+    </main>
+	
+    <footer>
+        <p>Department of Computer Science & Computer Information Systems (CSCI)</p>
+        <p>College of Science (CoS), Auburn University at Montgomery (AUM)</p>
+        <p>Office: Goodwyn Hall 310-Q</p>
+        <p>E-Mail: jzhang7@aum.edu</p>
+    </footer>
+<script>
+
+    $('#btn').click(()=>{
+        let values = $("#hours").val();
+        if(values){
+            let value = values.trim().split(";");
+            let arr = value.filter(i=>i.length>0);
+
+            let newarr = arr.map(i=>{
+                let num = parseInt(i.split(",")[0], 10);
+                let str = i.split(",")[1];
+                return [num, str]
+                }
+            );
+            console.log(calculateAvGPA(...newarr));
+            $("#GPA").html(calculateAvGPA(...newarr))
+        }
+    })
+
+
+    function calculateAvGPA(...reset){
+        const  inputs = reset;
+        let sumGrade = 0,
+            sumHours = 0;
+        inputs.forEach(i => {
+            sumGrade += i[0] * getGrade(i[1]);
+            sumHours += i[0]
+        });
+        return (sumGrade/sumHours).toFixed(2);
+    }
+
+    function getGrade(Letter){
+        switch (Letter) {
+            case 'A':
+                return 4;
+                break;
+            case 'B':
+                return 3;
+                break;
+            case 'C':
+                return 2;
+                break;
+            case 'D':
+                return 1;
+                break;
+            case 'F':
+                return 0;
+                break;
+            default:
+        }
+    }
+</script>
+</body>
+</html>
